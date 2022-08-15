@@ -6,13 +6,19 @@ use Facebook\PersistentData\PersistentDataInterface;
 
 class SessionPersistentDataHandler implements PersistentDataInterface
 {
+    protected $sessionPrefix = 'FBRLH_';
+    
     public function get($key)
     {
-        return $_SESSION[$key] ?? null;
+        if (isset($_SESSION[$this->sessionPrefix . $key])) {
+            return $_SESSION[$this->sessionPrefix . $key];
+        }
+
+        return null;
     }
 
     public function set($key, $value)
     {
-        $_SESSION[$key] = $value;
+        $_SESSION[$this->sessionPrefix . $key] = $value;
     }
 }
